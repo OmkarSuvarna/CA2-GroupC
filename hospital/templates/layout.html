@@ -54,8 +54,16 @@
     </div>
   </nav>
   <div class="container">
-    {% block patientInfo %}
-    {% endblock %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block patientInfo %}{% endblock %}
   </div>
 
   <!-- Optional JavaScript -->
