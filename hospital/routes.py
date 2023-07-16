@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect
 from hospital import app
-from hospital.forms import LoginForm, PatientForm
-from hospital.models import Doctor, Patient
+from hospital.forms import LoginForm, PatientForm, UserForm
+from hospital.models import User, Doctor, Patient 
 
 patient = [
     {
@@ -26,9 +26,10 @@ patient = [
 def home():
     return render_template('home.html', patient=patient)
 
-@app.route("/second-page")
-def about():
-    return "<h1>Second Page will go here</h1>"
+@app.route("/admin-useradd")
+def admin():
+    form = UserForm()
+    return render_template('admin.html', form=form)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
