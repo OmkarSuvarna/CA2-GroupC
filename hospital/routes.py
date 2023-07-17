@@ -4,7 +4,7 @@ from hospital.forms import LoginForm, PatientForm, UserForm
 from hospital.models import User, Doctor, Patient 
 from flask_login import login_user, current_user, logout_user, login_required
 
-patient = [
+patient2 = [
     {
         'id':'100',
         'firstName' : 'John',
@@ -21,15 +21,6 @@ patient = [
     }
 ]
 
-# @app.route("/register", methods=['GET', 'POST'])
-# def registerPatient():
-#     form = PatientForm()
-#     if form.validate_on_submit():
-#          flash(f'Added Patient : {form.firstName.data}', 'success')
-#          return redirect(url_for('registerPatient'))
-#     return render_template('registerPatient.html', form=form)
-
-
 @app.route("/")
 @app.route("/home_doctor", methods=['GET', 'POST'])
 def home_doctor():
@@ -39,6 +30,7 @@ def home_doctor():
         db.session.add(patient)
         db.session.commit()
         flash(f'Added Patient : {form.firstName.data}', 'success')
+        patient = Patient.query.all()
         return redirect(url_for('home_doctor'))
     return render_template('home_doctor.html', form=form)
 
@@ -61,10 +53,8 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
+            flash(f'Welcome {form.username.data}', 'success')
             return redirect(url_for('home_doctor'))         
-        # if form.username.data == 'omkar' and form.password.data == '123':
-
-        #     flash(f'Welcome {form.username.data}', 'success')
         else:
             flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', form=form)
@@ -74,6 +64,12 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+@app.route("/doctor_profile")
+def doctor_profile():
+    
+    return render_template('doctor_profile.html', title ='Doctor Pofile')
+
+
 # @app.route("/register", methods=['GET', 'POST'])
 # def registerPatient():
 #     form = PatientForm()
@@ -81,9 +77,4 @@ def logout():
 #          flash(f'Added Patient : {form.firstName.data}', 'success')
 #          return redirect(url_for('registerPatient'))
 #     return render_template('registerPatient.html', form=form)
-
-@app.route("/doctor_profile")
-def doctor_profile():
-    
-    return render_template('doctor_profile.html', title ='Doctor Pofile')
     
