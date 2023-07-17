@@ -33,10 +33,10 @@ class Doctor(db.Model):
     age = db.Column(db.String(20), nullable=False)
     gender = db.Column(db.String(10), nullable=False)
     specialization = db.Column(db.String(10), nullable=False)
-    # patients = db.relationship('Patient', backref='doctor', lazy=True)
+    patients = db.relationship('Patient', backref='doctor', lazy=True)
 
     def __repr__(self):
-        return f"Doctor('{self.firstName}','{self.lastName}','{self.age}','{self.gender}','{self.specilization}')"
+        return f"Doctor('{self.firstName}','{self.lastName}','{self.age}','{self.gender}','{self.specialization}')"
 
 class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
