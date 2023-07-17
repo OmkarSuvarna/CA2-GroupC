@@ -21,15 +21,26 @@ patient = [
     }
 ]
 
+# @app.route("/register", methods=['GET', 'POST'])
+# def registerPatient():
+#     form = PatientForm()
+#     if form.validate_on_submit():
+#          flash(f'Added Patient : {form.firstName.data}', 'success')
+#          return redirect(url_for('registerPatient'))
+#     return render_template('registerPatient.html', form=form)
+
 
 @app.route("/")
-@app.route("/home")
-def home():
+@app.route("/home_doctor", methods=['GET', 'POST'])
+def home_doctor():
     form = PatientForm()
     if form.validate_on_submit():
-         flash(f'Added Patient : {form.firstName.data}', 'success')
-         return redirect(url_for('registerPatient'))
-    return render_template('home.html', form=form, patient=patient)
+        patient = Patient(firstName=form.firstName.data, lastName=form.lastName.data, age=form.age.data, gender=form.gender.data, doctor_id=1)
+        db.session.add(patient)
+        db.session.commit()
+        flash(f'Added Patient : {form.firstName.data}', 'success')
+        return redirect(url_for('home_doctor'))
+    return render_template('home_doctor.html', form=form)
 
 @app.route("/admin-useradd", methods=['GET', 'POST'])
 def admin():
@@ -40,7 +51,7 @@ def admin():
         db.session.add(user)
         db.session.commit()
         flash('A New User is Added', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('home_doctor'))
     return render_template('admin.html', form=form)
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -50,7 +61,7 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
-            return redirect(url_for('home'))         
+            return redirect(url_for('home_doctor'))         
         # if form.username.data == 'omkar' and form.password.data == '123':
 
         #     flash(f'Welcome {form.username.data}', 'success')
@@ -63,13 +74,13 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route("/register", methods=['GET', 'POST'])
-def registerPatient():
-    form = PatientForm()
-    if form.validate_on_submit():
-         flash(f'Added Patient : {form.firstName.data}', 'success')
-         return redirect(url_for('registerPatient'))
-    return render_template('registerPatient.html', form=form)
+# @app.route("/register", methods=['GET', 'POST'])
+# def registerPatient():
+#     form = PatientForm()
+#     if form.validate_on_submit():
+#          flash(f'Added Patient : {form.firstName.data}', 'success')
+#          return redirect(url_for('registerPatient'))
+#     return render_template('registerPatient.html', form=form)
 
 @app.route("/doctor_profile")
 def doctor_profile():
