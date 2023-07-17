@@ -1,9 +1,10 @@
 {% extends "layout.html" %}
 {% block bodyContent %}
-
-<div class="">
-  <legend class="border-bottom mb-4">Add a Patient</legend>
-  <form>
+<div class="patient-form-container">
+  <form method="POST" action="">
+    <!-- CSRF Token -->
+    {{ form.hidden_tag() }}
+    <legend class="border-bottom mb-4">Add a Patient</legend>
     <div class="row">
       <div class="col">
         {{ form.firstName.label(class="form-control-label") }}
@@ -13,7 +14,6 @@
         {{ form.lastName.label(class="form-control-label") }}
         {{ form.lastName(class="form-control form-control-lg") }}
       </div>
-      
     </div>
     <div class="row">
       <div class="col">
@@ -34,6 +34,7 @@
   </div>
   </form>
 </div>
+<!-- Patient Table will go here -->
 <div class="patient-info">
   <table class="table">
     <thead>
