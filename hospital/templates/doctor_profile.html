@@ -1,5 +1,14 @@
 {% extends "layout.html" %}
 {% block bodyContent %}
-    <!-- <h1> {{ current_user.username}}</h1> -->
-    <h1>Doctor Profile</h1>
+    <div class="profile-container">
+        <div class="profile-image">
+            <img class="rounded-circle account-img" src="../static/images/02.jpg">
+        </div>
+        <div class="profile-body">
+            <h2 class="profile-heading">John Dorian</h2>
+            <p class="text-secondary">Age</p>
+            <p class="text-secondary">Gender</p>
+            <p class="text-secondary">Specilizations</p>
+        </div>
+    </div>
 {% endblock bodyContent %}

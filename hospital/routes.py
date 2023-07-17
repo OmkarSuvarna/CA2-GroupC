@@ -48,20 +48,13 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route("/doctor_profile")
-def doctor_profile():
-    
-    return render_template('doctor_profile.html', title ='Doctor Pofile')
-
-
 # @app.route("/register", methods=['GET', 'POST'])
 # def registerPatient():
 #     form = PatientForm()
 #     if form.validate_on_submit():
 #          flash(f'Added Patient : {form.firstName.data}', 'success')
 #          return redirect(url_for('registerPatient'))
-#     return render_template('registerPatient.html', form=form)
-    
+#     return render_template('registerPatient.html', form=form)    
 
 #Admin adds Doctors
 @app.route("/admin_addDoctor", methods=['GET', 'POST'])
@@ -71,7 +64,12 @@ def admin_addDoctor():
         doctor = Doctor(firstName=form.firstName.data, lastName=form.lastName.data, age=form.age.data, gender=form.gender.data, specialization=form.specialization.data)
         db.session.add(doctor)
         db.session.commit()
-        flash(f'Added Doctor : {form.firstName.data},{form.lastName.data}', 'success')
+        flash(f'Added Doctor : {form.firstName.data} {form.lastName.data}', 'success')
         return redirect(url_for('admin_addDoctor'))
     doctors = Doctor.query.all()
     return render_template('admin_addDoctor.html', form=form, doctors=doctors)
+
+@app.route("/doctor_profile")
+def doctor_profile():
+    
+    return render_template('doctor_profile.html', title ='Doctor Profile')
