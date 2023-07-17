@@ -27,3 +27,8 @@ body {
     display: inline;
     align-items: end;
 }
+
+.submit-btn{
+    padding-top: 2rem;
+    float:right;
+}

@@ -4,23 +4,6 @@ from hospital.forms import LoginForm, PatientForm, UserForm, DoctorForm
 from hospital.models import User, Doctor, Patient 
 from flask_login import login_user, current_user, logout_user, login_required
 
-patient2 = [
-    {
-        'id':'100',
-        'firstName' : 'John',
-        'lastName' : 'Snow',
-        'age' : '25',
-        'gender' : 'Male'
-    },
-    {
-        'id':'101',
-        'firstName' : 'Arya',
-        'lastName' : 'Stark',
-        'age' : '20',
-        'gender' : 'Female'
-    }
-]
-
 @app.route("/")
 @app.route("/home_doctor", methods=['GET', 'POST'])
 def home_doctor():
@@ -30,9 +13,10 @@ def home_doctor():
         db.session.add(patient)
         db.session.commit()
         flash(f'Added Patient : {form.firstName.data}', 'success')
-        patient = Patient.query.all()
+        db.create_all()
         return redirect(url_for('home_doctor'))
-    return render_template('home_doctor.html', form=form)
+    patients = Patient.query.all()
+    return render_template('home_doctor.html', form=form, patients=patients)
 
 @app.route("/admin-useradd", methods=['GET', 'POST'])
 def admin():
