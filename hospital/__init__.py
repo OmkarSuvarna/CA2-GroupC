@@ -9,7 +9,10 @@ app.app_context().push()
 app.config['SECRET_KEY'] = '07e75ab07bc34c6551b87420a27584d0'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
-# bcrypt = Bcrypt(app)
+bcrypt = Bcrypt(app)
+
+# login
+
 
 from hospital import routes
 

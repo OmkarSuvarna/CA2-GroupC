@@ -1,5 +1,5 @@
 from flask import render_template, url_for, flash, redirect
-from hospital import app
+from hospital import app, db, bcrypt
 from hospital.forms import LoginForm, PatientForm, UserForm
 from hospital.models import User, Doctor, Patient 
 
@@ -26,9 +26,16 @@ patient = [
 def home():
     return render_template('home.html', patient=patient)
 
-@app.route("/admin-useradd")
+@app.route("/admin-useradd", methods=['GET', 'POST'])
 def admin():
     form = UserForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash('A New User is Added', 'success')
+        return redirect(url_for('home'))
     return render_template('admin.html', form=form)
 
 @app.route("/login", methods=['GET', 'POST'])
