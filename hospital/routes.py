@@ -24,7 +24,11 @@ patient = [
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', patient=patient)
+    form = PatientForm()
+    if form.validate_on_submit():
+         flash(f'Added Patient : {form.firstName.data}', 'success')
+         return redirect(url_for('registerPatient'))
+    return render_template('home.html', form=form, patient=patient)
 
 @app.route("/admin-useradd", methods=['GET', 'POST'])
 def admin():
