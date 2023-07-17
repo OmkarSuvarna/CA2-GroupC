@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect
 from hospital import app, db, bcrypt
-from hospital.forms import LoginForm, PatientForm, UserForm
+from hospital.forms import LoginForm, PatientForm, UserForm, DoctorForm
 from hospital.models import User, Doctor, Patient 
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -78,3 +78,16 @@ def doctor_profile():
 #          return redirect(url_for('registerPatient'))
 #     return render_template('registerPatient.html', form=form)
     
+
+#Admin adds Doctors
+@app.route("/admin_addDoctor", methods=['GET', 'POST'])
+def admin_addDoctor():
+    form = DoctorForm()
+    if form.validate_on_submit():
+        # doctor = Doctor(firstName=form.firstName.data, lastName=form.lastName.data, age=form.age.data, gender=form.gender.data, specialization=form.specialization.data)
+        # db.session.add(doctor)
+        # db.session.commit()
+        flash(f'Added Doctor : {form.firstName.data},{form.lastName.data}', 'success')
+        # doctor = doctor.query.all()
+        return redirect(url_for('admin_addDoctor'))
+    return render_template('admin_addDoctor.html', form=form)

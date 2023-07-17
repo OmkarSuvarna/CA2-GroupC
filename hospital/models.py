@@ -16,16 +16,27 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"User('{self.username}','{self.email}')"
 
+# class Doctor2(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     username = db.Column(db.String(20), unique=True, nullable=False)
+#     password = db.Column(db.String(60), nullable=False)
+#     usertype = db.Column(db.String(20), nullable=False)
+#     patients = db.relationship('Patient', backref='doctor', lazy=True)
+
+#     def __repr__(self):
+#         return f"Doctor('{self.username}','{self.usertype}')"
+
 class Doctor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
-    usertype = db.Column(db.String(20), nullable=False)
-    patients = db.relationship('Patient', backref='doctor', lazy=True)
+    firstName = db.Column(db.String(20), nullable=False)
+    lastName = db.Column(db.String(20), nullable=False)
+    age = db.Column(db.String(20), nullable=False)
+    gender = db.Column(db.String(10), nullable=False)
+    specialization = db.Column(db.String(10), nullable=False)
+    # patients = db.relationship('Patient', backref='doctor', lazy=True)
 
     def __repr__(self):
-        return f"Doctor('{self.username}','{self.usertype}')"
-
+        return f"Doctor('{self.firstName}','{self.lastName}','{self.age}','{self.gender}','{self.specilization}')"
 
 class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)

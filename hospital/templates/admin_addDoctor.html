@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% block bodyContent %}
+<div class="doctor-form-container">
+  <form method="POST" action="">
+    <!-- CSRF Token -->
+    {{ form.hidden_tag() }}
+    <legend class="border-bottom mb-4" style="padding-top: 10px;">Add a Doctor</legend>
+    <div class="row">
+      <div class="col">
+        {{ form.firstName.label(class="form-control-label") }}
+        {{ form.firstName(class="form-control form-control-lg") }}
+      </div>
+      <div class="col">
+        {{ form.lastName.label(class="form-control-label") }}
+        {{ form.lastName(class="form-control form-control-lg") }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        {{ form.age.label(class="form-control-label") }}
+        {{ form.age(class="form-control form-control-lg") }}
+      </div>
+      <div class="col">
+        {{ form.gender.label(class="form-control-label") }}
+        {{ form.gender(class="form-control form-control-lg") }}
+      </div>
+      <div class="col">
+        {{ form.specialization.label(class="form-control-label") }}
+        {{ form.specialization(class="form-control form-control-lg") }}
+      </div>
+    </div>
+    <div class="form-group" style="padding-top: 10px;">
+      {{ form.submit(class="btn btn-outline-info") }}
+  </div>
+  </form>
+</div>
+<!-- Doctors Table will go here -->
+<div class="doctors-info">
+  <table class="table">
+    <thead>
+      <tr>
+        <!-- <th scope="col">Patient ID</th> -->
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Age</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Specilization</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in doctor %}
+      <tr>
+        <!-- <th scope="row">{{p.id}}</th> -->
+        <td>{{d.firstName}}</td>
+        <td>{{d.lastName}}</td>
+        <td>{{d.age}}</td>
+        <td>{{d.gender}}</td>
+        <td>{{d.specialization}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock bodyContent %}
