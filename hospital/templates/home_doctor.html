@@ -56,7 +56,7 @@
         <td>{{p.lastName}}</td>
         <td>{{p.age}}</td>
         <td>{{p.gender}}</td>
-        <td><a href="{{ url_for('updatepatient', patient_id =p.id) }}">Update</a></td>
+        <td><a href="{{ url_for('updatePatient', patient_id =p.id) }}">Update</a></td>
         <td><a href="{{ url_for('patient_profile', patient_id =p.id) }}">Go</a></td>
       </tr>
       {% endfor %}
