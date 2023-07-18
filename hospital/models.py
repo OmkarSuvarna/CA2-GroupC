@@ -44,7 +44,8 @@ class Patient(db.Model):
     lastName = db.Column(db.String(20), nullable=False)
     age = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.String(10), nullable=False)
-    doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'), nullable=False)
+    doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'), default=None)
+    # doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'), nullable=False)
 
     def __repr__(self):
         return f"Patient('{self.firstName}','{self.lastName}','{self.age}','{self.gender}')"
