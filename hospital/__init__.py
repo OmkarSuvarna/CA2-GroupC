@@ -1,9 +1,7 @@
-# entry point into package
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-# from db import hospitalDB
 
 app = Flask(__name__)
 app.app_context().push()
@@ -14,6 +12,6 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 
 from hospital import routes
-
-# with app.app_context():
-#     db.create_all()
+from hospital import db
+from hospital.models import User, Doctor, Patient
+db.create_all()
