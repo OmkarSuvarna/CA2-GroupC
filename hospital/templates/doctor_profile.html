@@ -5,10 +5,16 @@
             <img class="rounded-circle account-img" src="../static/images/02.jpg">
         </div>
         <div class="profile-body">
-            <h2 class="profile-heading">John Dorian</h2>
-            <p class="text-secondary">Age</p>
-            <p class="text-secondary">Gender</p>
-            <p class="text-secondary">Specilizations</p>
+            <h2 class="profile-heading">{{ doctor.firstName }} {{ doctor.lastName }}</h2>
+            <p class="text-secondary">{{ doctor.age}}</p>
+            <p class="text-secondary">{{ doctor.gender }}</p>
+            <p class="text-secondary">{{ doctor.specialization }}</p>
         </div>
     </div>
+    {% for p in doctor.patients %}
+    <div>        
+        <p>{{ p }}</p>
+    </div>    
+    {% endfor %}
+
 {% endblock bodyContent %}
