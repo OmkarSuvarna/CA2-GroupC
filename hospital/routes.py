@@ -54,6 +54,7 @@ def deletePatient(patient_id):
     flash('Patient Details Deleted', 'info')
     return redirect(url_for('home_doctor'))
 
+# customertype required
 @app.route("/admin-useradd", methods=['GET', 'POST'])
 def admin():
     form = UserForm()
@@ -62,9 +63,8 @@ def admin():
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        flash('A New User is Added', 'success')
-        return redirect(url_for('home_doctor'))
-    return render_template('admin.html', form=form)
+        return redirect(url_for('login'))
+    return render_template('admin.html', form=form, title ='Add User')
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -103,7 +103,7 @@ def admin_addDoctor():
         flash(f'Added Doctor : {form.firstName.data} {form.lastName.data}', 'success')
         return redirect(url_for('admin_addDoctor'))
     doctors = Doctor.query.all()
-    return render_template('admin_addDoctor.html', form=form, doctors=doctors)
+    return render_template('admin_addDoctor.html', form=form, title ='Add Doctor', doctors=doctors)
 
 @app.route("/doctor_profile/<int:doctor_id>")
 def doctor_profile(doctor_id):

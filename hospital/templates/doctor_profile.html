@@ -21,7 +21,7 @@
               <th scope="col">Last Name</th>
               <th scope="col">Age</th>
               <th scope="col">Gender</th>
-              <th scope="col">Consultation Data</th>
+              <th scope="col" class="text-center">Consultation Data</th>
             </tr>
           </thead>
           <tbody>
@@ -32,7 +32,7 @@
               <td>{{p.lastName}}</td>
               <td>{{p.age}}</td>
               <td>{{p.gender}}</td>
-              <td><a href="{{ url_for('patient_profile', patient_id =p.id) }}">Go</a></td>
+              <td class="text-center"><a href="{{ url_for('patient_profile', patient_id=p.id) }}" class="btn btn-success mx-2">View</a></td>
             </tr>
             {% endfor %}
           </tbody>
