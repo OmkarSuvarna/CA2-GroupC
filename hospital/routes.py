@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect
+from flask import render_template, url_for, flash, redirect, request, abort
 from hospital import app, db, bcrypt
 from hospital.forms import LoginForm, PatientForm, UserForm, DoctorForm
 from hospital.models import User, Doctor, Patient 
@@ -21,8 +21,28 @@ def home_doctor():
 @app.route("/patient_profile/<int:patient_id>")
 def patient_profile(patient_id):
     patient = Patient.query.get_or_404(patient_id)
-    
     return render_template('patient_profile.html', title ='Patient Profile', patient=patient)
+
+@app.route("/patient_page/<int:patient_id>/update", methods=['GET', 'POST'])
+def updatepatient(patient_id):
+    patient = Patient.query.get_or_404(patient_id)
+    # if patient.doctor != current_user:
+    # abort(403)
+    form = PatientForm()
+    if form.validate_on_submit():
+        patient.firstName = form.firstName.data
+        patient.lastName = form.lastName.data
+        patient.age = form.age.data
+        patient.gender = form.gender.data
+        db.session.commit()
+        flash(f'Patient Details Updated', 'info')
+        return redirect(url_for('home_doctor'))
+    elif request.method == 'GET':
+        form.firstName.data = patient.firstName
+        form.lastName.data = patient.lastName
+        form.age.data = patient.age
+        form.gender.data = patient.gender
+    return render_template('update_patient.html', title ='Update Patient', form=form, patient=patient)
 
 @app.route("/admin-useradd", methods=['GET', 'POST'])
 def admin():
