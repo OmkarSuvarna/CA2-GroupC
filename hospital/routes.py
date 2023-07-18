@@ -35,7 +35,7 @@ def updatePatient(patient_id):
         patient.age = form.age.data
         patient.gender = form.gender.data
         db.session.commit()
-        flash(f'Patient Details Updated', 'info')
+        flash('Patient Details Updated', 'info')
         return redirect(url_for('home_doctor'))
     elif request.method == 'GET':
         form.firstName.data = patient.firstName
@@ -43,6 +43,16 @@ def updatePatient(patient_id):
         form.age.data = patient.age
         form.gender.data = patient.gender
     return render_template('update_patient.html', title ='Update Patient', form=form, patient=patient)
+
+@app.route("/home_doctor/<int:patient_id>/delete", methods=['GET'])
+def deletePatient(patient_id):
+    patient = Patient.query.get_or_404(patient_id)
+    # if patient.doctor != current_user:
+    # abort(403)
+    db.session.delete(patient)
+    db.session.commit()
+    flash('Patient Details Deleted', 'info')
+    return redirect(url_for('home_doctor'))
 
 @app.route("/admin-useradd", methods=['GET', 'POST'])
 def admin():
@@ -123,3 +133,5 @@ def updateDoctor(doctor_id):
         form.gender.data = doctor.gender
         form.specialization.data = doctor.specialization
     return render_template('update_doctor.html', title ='Update Doctor', form=form, doctor=doctor)
+
+

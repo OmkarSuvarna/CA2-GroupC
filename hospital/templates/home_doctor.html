@@ -36,7 +36,7 @@
 </div>
 <!-- Patient Table will go here -->
 <div class="patient-info">
-  <table class="table">
+  <table class="table table-hover table-fixed">
     <thead>
       <tr>
         <th scope="col">Patient ID</th>
@@ -44,7 +44,9 @@
         <th scope="col">Last Name</th>
         <th scope="col">Age</th>
         <th scope="col">Gender</th>
-        <th scope="col">Update | View Profile</th>
+        <th scope="col" class="text-center">Update</th>
+        <th scope="col" class="text-center">View Profile</th>
+        <th scope="col" class="text-center">Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -55,7 +57,9 @@
         <td>{{p.lastName}}</td>
         <td>{{p.age}}</td>
         <td>{{p.gender}}</td>
-        <td><a href="{{ url_for('updatePatient', patient_id =p.id) }}" class="btn btn-warning mx-2">Update</a><a href="{{ url_for('patient_profile', patient_id =p.id) }}" class="btn btn-success mx-2">View</a></td>
+        <td class="text-center"><a href="{{ url_for('updatePatient', patient_id=p.id) }}" class="btn btn-warning mx-2">Update</a></td>
+        <td class="text-center"><a href="{{ url_for('patient_profile', patient_id=p.id) }}" class="btn btn-success mx-2">View</a></td>
+        <td class="text-center"><a href="{{ url_for('deletePatient', patient_id=p.id)}}" class="btn btn-danger mx-2">Delete</a></td>
       </tr>
       {% endfor %}
     </tbody>
