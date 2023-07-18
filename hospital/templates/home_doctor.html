@@ -30,7 +30,7 @@
       </div> -->
     </div>
     <div class="form-group submit-btn py-2">
-      {{ form.submit(class="btn btn-outline-info") }}
+      {{ form.submit(class="btn btn-primary") }}
   </div>
   </form>
 </div>
@@ -44,8 +44,7 @@
         <th scope="col">Last Name</th>
         <th scope="col">Age</th>
         <th scope="col">Gender</th>
-        <th scope="col">Update</th>
-        <th scope="col">Profile</th>
+        <th scope="col">Update | View Profile</th>
       </tr>
     </thead>
     <tbody>
@@ -56,8 +55,7 @@
         <td>{{p.lastName}}</td>
         <td>{{p.age}}</td>
         <td>{{p.gender}}</td>
-        <td><a href="{{ url_for('updatePatient', patient_id =p.id) }}">Update</a></td>
-        <td><a href="{{ url_for('patient_profile', patient_id =p.id) }}">Go</a></td>
+        <td><a href="{{ url_for('updatePatient', patient_id =p.id) }}" class="btn btn-warning mx-2">Update</a><a href="{{ url_for('patient_profile', patient_id =p.id) }}" class="btn btn-success mx-2">View</a></td>
       </tr>
       {% endfor %}
     </tbody>
