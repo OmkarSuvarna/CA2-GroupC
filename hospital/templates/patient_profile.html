@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block bodyContent %}
+    <div class="profile-container">
+        <div class="profile-image">
+            <img class="rounded-circle account-img" src="../static/images/01.1.jpg">
+        </div>
+        <div class="profile-body">
+            <h2 class="profile-heading">{{ patient.firstName }} {{ patient.lastName }}</h2>
+            <p class="text-secondary">{{ patient.age}}</p>
+            <p class="text-secondary">{{ patient.gender }}</p>
+        </div>
+    </div>
+{% endblock bodyContent %}

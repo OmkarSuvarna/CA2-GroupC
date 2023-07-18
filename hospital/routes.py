@@ -9,7 +9,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 def home_doctor():
     form = PatientForm()
     if form.validate_on_submit():
-        patient = Patient(firstName=form.firstName.data, lastName=form.lastName.data, age=form.age.data, gender=form.gender.data, doctor_id=5)
+        patient = Patient(firstName=form.firstName.data, lastName=form.lastName.data, age=form.age.data, gender=form.gender.data, doctor_id=1)
         db.session.add(patient)
         db.session.commit()
         flash(f'Added Patient : {form.firstName.data}  {form.lastName.data}', 'success')
@@ -17,6 +17,12 @@ def home_doctor():
         return redirect(url_for('home_doctor'))
     patients = Patient.query.all()
     return render_template('home_doctor.html', form=form, patients=patients)
+
+@app.route("/patient_profile/<int:patient_id>")
+def patient_profile(patient_id):
+    patient = Patient.query.get_or_404(patient_id)
+    
+    return render_template('patient_profile.html', title ='Patient Profile', patient=patient)
 
 @app.route("/admin-useradd", methods=['GET', 'POST'])
 def admin():
