@@ -61,7 +61,7 @@
         <td>{{d.specialization}}</td>
         <td><a href="{{ url_for('updateDoctor', doctor_id =d.id) }}" class="btn btn-warning mx-2">Update</a></td>
         <td><a href="{{ url_for('doctor_profile', doctor_id =d.id) }}" class="btn btn-success mx-2">View</a></td>
-        <td><a href="{{ url_for('doctor_profile', doctor_id =d.id) }}" class="btn btn-success mx-2">View</a></td>
+        <td><a href="{{ url_for('deletePatient', doctor_id =d.id) }}" class="btn btn-danger mx-2">Delete</a></td>
       </tr>
       {% endfor %}
     </tbody>

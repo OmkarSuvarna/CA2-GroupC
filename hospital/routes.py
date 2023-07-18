@@ -134,4 +134,14 @@ def updateDoctor(doctor_id):
         form.specialization.data = doctor.specialization
     return render_template('update_doctor.html', title ='Update Doctor', form=form, doctor=doctor)
 
+@app.route("/admin_addDoctor/<int:doctor_id>/delete", methods=['GET'])
+def deletePatient(doctor_id):
+    doctor = Doctor.query.get_or_404(doctor_id)
+    # if patient.doctor != current_user:
+    # abort(403)
+    db.session.delete(doctor)
+    db.session.commit()
+    flash('Doctor Details Deleted', 'info')
+    return redirect(url_for('admin_addDoctor'))
+
 
