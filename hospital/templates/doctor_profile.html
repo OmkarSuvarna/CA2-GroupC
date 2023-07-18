@@ -11,10 +11,30 @@
             <p class="text-secondary">{{ doctor.specialization }}</p>
         </div>
     </div>
-    {% for p in doctor.patients %}
-    <div>        
-        <p>{{ p }}</p>
-    </div>    
-    {% endfor %}
-
+    <div class="patient-info">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Patient ID</th>
+              <th scope="col">First Name</th>
+              <th scope="col">Last Name</th>
+              <th scope="col">Age</th>
+              <th scope="col">Gender</th>
+              <th scope="col">Consultation Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in doctor.patients %}
+            <tr>
+              <th scope="row">{{p.id}}</th>
+              <td>{{p.firstName}}</td>
+              <td>{{p.lastName}}</td>
+              <td>{{p.age}}</td>
+              <td>{{p.gender}}</td>
+              <td><a href="{{ url_for('patient_profile', patient_id =p.id) }}">Go</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
 {% endblock bodyContent %}
