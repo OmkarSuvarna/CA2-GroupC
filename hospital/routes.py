@@ -24,7 +24,7 @@ def patient_profile(patient_id):
     return render_template('patient_profile.html', title ='Patient Profile', patient=patient)
 
 @app.route("/patient_page/<int:patient_id>/update", methods=['GET', 'POST'])
-def updatepatient(patient_id):
+def updatePatient(patient_id):
     patient = Patient.query.get_or_404(patient_id)
     # if patient.doctor != current_user:
     # abort(403)
@@ -100,3 +100,26 @@ def doctor_profile(doctor_id):
     doctor = Doctor.query.get_or_404(doctor_id)
     
     return render_template('doctor_profile.html', title ='Doctor Profile', doctor=doctor)
+
+@app.route("/doctor_page/<int:doctor_id>/update", methods=['GET', 'POST'])
+def updateDoctor(doctor_id):
+    doctor = Doctor.query.get_or_404(doctor_id)
+    # if patient.doctor != current_user:
+    # abort(403)
+    form = DoctorForm()
+    if form.validate_on_submit():
+        doctor.firstName = form.firstName.data
+        doctor.lastName = form.lastName.data
+        doctor.age = form.age.data
+        doctor.gender = form.gender.data
+        doctor.specialization = form.specialization.data
+        db.session.commit()
+        flash(f'Doctor Details Updated', 'info')
+        return redirect(url_for('admin_addDoctor'))
+    elif request.method == 'GET':
+        form.firstName.data = doctor.firstName
+        form.lastName.data = doctor.lastName
+        form.age.data = doctor.age
+        form.gender.data = doctor.gender
+        form.specialization.data = doctor.specialization
+    return render_template('update_doctor.html', title ='Update Doctor', form=form, doctor=doctor)
