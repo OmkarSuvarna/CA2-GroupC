@@ -4,8 +4,12 @@
     box-sizing: border-box;
 }
 
+
 body {
-    background-color: antiquewhite;
+    background-color: rgb(244, 246, 248);
+}
+.navcolor{
+    background-color: rgb(7, 1, 55)!important;
 }
 
 .login-container{
@@ -66,8 +70,8 @@ body {
 font-size: 2.5rem;
 }
 
-.reduce-width{
-    width: 14rem;
+.table-row-color{
+    color: #ffffff;
+    background-color: rgb(7, 1, 55)!important;
 }
-
 
