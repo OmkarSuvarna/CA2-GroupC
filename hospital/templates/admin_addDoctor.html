@@ -45,6 +45,7 @@
         <th scope="col">Age</th>
         <th scope="col">Gender</th>
         <th scope="col">Specilization</th>
+        <th scope="col">Check Profile</th>
       </tr>
     </thead>
     <tbody>
@@ -56,6 +57,7 @@
         <td>{{d.age}}</td>
         <td>{{d.gender}}</td>
         <td>{{d.specialization}}</td>
+        <td><a href="{{ url_for('doctor_profile', doctor_id =d.id) }}">Go</a></td>
       </tr>
       {% endfor %}
     </tbody>
