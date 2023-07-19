@@ -45,4 +45,4 @@ class DoctorForm(FlaskForm):
 class ConsultationForm(FlaskForm):
     description = TextAreaField('Consultation Details', validators=[DataRequired()])
     gender = SelectField('Gender', coerce=str, choices=[('male', 'Male'), ('female', 'Female'), ('other', 'Others')])   
-    submit = SubmitField('Login')
+    submit = SubmitField('Submit')

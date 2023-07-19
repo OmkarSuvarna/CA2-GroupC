@@ -27,7 +27,7 @@
     {% for c in consultation %}
     <tr>
         <td>{{c.id}}</td>
-        <td>{{c.date_consultation}}</td>
+        <td>{{c.date_consultation.strftime('%d-%m-%Y')}}</td>
         <td>{{c.description}}</td>
         <td><a href="#" class="btn btn-warning mx-2">Update</a></td>
         <td><a href="#" class="btn btn-danger mx-2">Delete</a></td>
