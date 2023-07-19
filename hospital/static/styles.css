@@ -18,7 +18,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color:antiquewhite
+    background-color:antiquewhite;
+    flex-direction: column;
+    
 }
 
 .navbar-nav{
