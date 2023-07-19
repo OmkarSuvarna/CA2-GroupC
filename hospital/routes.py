@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, abort
 from hospital import app, db, bcrypt
-from hospital.forms import LoginForm, PatientForm, UserForm, DoctorForm
-from hospital.models import User, Doctor, Patient 
+from hospital.forms import LoginForm, PatientForm, UserForm, DoctorForm, ConsultationForm
+from hospital.models import User, Doctor, Patient, Consultation 
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
@@ -144,4 +144,22 @@ def deleteDoctor(doctor_id):
     flash('Doctor Details Deleted', 'info')
     return redirect(url_for('admin_addDoctor'))
 
+@app.route("/patient_consultation/<int:patient_id>", methods=['GET', 'POST'])
+def patientConsultation(patient_id):
+    form = ConsultationForm()
+    if form.validate_on_submit():
+        consultation = Consultation(description=form.description.data,  gender=form.gender.data, patient_id=patient_id)
+        db.session.add(consultation)
+        db.session.commit()
+        flash('Added Consultation Details', 'success')
+        return redirect(url_for('patient_profile', patient_id=patient_id))
+
+    # doctor = Doctor.query.get_or_404(doctor_id)
+    # if patient.doctor != current_user:
+    # abort(403)
+    # db.session.delete(doctor)
+    # db.session.commit()
+    # flash('Doctor Details Deleted', 'info')
+    # return redirect(url_for('admin_addDoctor'))
+    return render_template('patient_consultation.html', title ='Add Consultation', form=form)
 

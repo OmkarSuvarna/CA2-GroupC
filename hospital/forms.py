@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, ValidationError
-from hospital.models import User, Doctor
+from hospital.models import User, Doctor, Consultation
 
 class UserForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=6, max=15)])
@@ -41,3 +41,8 @@ class DoctorForm(FlaskForm):
     gender = StringField('Gender', validators=[DataRequired()])   
     specialization = StringField('Specialization', validators=[DataRequired()]) 
     submit = SubmitField('Submit')
+
+class ConsultationForm(FlaskForm):
+    description = TextAreaField('Consultation Details', validators=[DataRequired()])
+    gender = SelectField('Gender', coerce=str, choices=[('male', 'Male'), ('female', 'Female'), ('other', 'Others')])   
+    submit = SubmitField('Login')
