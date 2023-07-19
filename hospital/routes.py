@@ -5,6 +5,19 @@ from hospital.models import User, Doctor, Patient, Consultation
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            flash(f'Welcome {form.username.data}', 'success')
+            return redirect(url_for('home_doctor'))         
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
+    return render_template('login.html', form=form)
+
 @app.route("/home_doctor", methods=['GET', 'POST'])
 def home_doctor():
     form = PatientForm()
@@ -66,19 +79,6 @@ def admin():
         db.session.commit()
         return redirect(url_for('login'))
     return render_template('admin.html', form=form, title ='Add User')
-
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user, remember=form.remember.data)
-            flash(f'Welcome {form.username.data}', 'success')
-            return redirect(url_for('home_doctor'))         
-        else:
-            flash('Login Unsuccessful. Please check username and password', 'danger')
-    return render_template('login.html', form=form)
 
 @app.route("/logout")
 def logout():

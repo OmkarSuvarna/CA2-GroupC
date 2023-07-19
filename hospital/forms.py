@@ -31,7 +31,6 @@ class PatientForm(FlaskForm):
     firstName = StringField('First Name', validators=[DataRequired(), Length(min=2,max=20)])
     lastName = StringField('Last Name', validators=[DataRequired(), Length(min=2,max=20)])
     age = StringField('Age', validators=[DataRequired()])
-    # gender = StringField('Gender', validators=[DataRequired()])
     gender = SelectField('Gender', coerce=str, choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Others')])   
     submit = SubmitField('Submit')
 
@@ -40,7 +39,6 @@ class DoctorForm(FlaskForm):
     lastName = StringField('Last Name', validators=[DataRequired(), Length(min=2,max=20)])
     age = StringField('Age', validators=[DataRequired()])
     gender = SelectField('Gender', coerce=str, choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Others')])   
-    # gender = StringField('Gender', validators=[DataRequired()])   
     specialization = StringField('Specialization', validators=[DataRequired()]) 
     submit = SubmitField('Submit')
 
