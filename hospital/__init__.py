@@ -16,5 +16,5 @@ login_manager = LoginManager(app)
 
 from hospital import routes
 from hospital import db
-from hospital.models import User, Doctor, Patient
+from hospital.models import User, Doctor, Patient, Consultation
 db.create_all()

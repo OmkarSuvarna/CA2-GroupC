@@ -46,6 +46,16 @@ class Patient(db.Model):
     gender = db.Column(db.String(10), nullable=False)
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'), default=None)
     # doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'), nullable=False)
+    consultations = db.relationship('Consultation', backref='consultation', lazy=True)
 
     def __repr__(self):
         return f"Patient('{self.firstName}','{self.lastName}','{self.age}','{self.gender}')"
+class Consultation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date_consultation = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    description = db.Column(db.String(500), nullable=False)
+    gender = db.Column(db.String(10), nullable=False)
+    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), default=None)
+
+    def __repr__(self):
+        return f"Consultation('{self.date_consultation}','{self.description}',{self.patient_id})"
