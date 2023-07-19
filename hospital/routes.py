@@ -21,7 +21,8 @@ def home_doctor():
 @app.route("/patient_profile/<int:patient_id>")
 def patient_profile(patient_id):
     patient = Patient.query.get_or_404(patient_id)
-    return render_template('patient_profile.html', title ='Patient Profile', patient=patient)
+    consultation = Consultation.query.filter_by(patient_id=patient_id)
+    return render_template('patient_profile.html', title ='Patient Profile', patient=patient, consultation=consultation)
 
 @app.route("/patient_page/<int:patient_id>/update", methods=['GET', 'POST'])
 def updatePatient(patient_id):
@@ -152,7 +153,8 @@ def patientConsultation(patient_id):
         db.session.add(consultation)
         db.session.commit()
         flash('Added Consultation Details', 'success')
-        return redirect(url_for('patient_profile', patient_id=patient_id))
+        consultation = Consultation.query.filter_by(patient_id=patient_id)
+        return redirect(url_for('patient_profile', patient_id=patient_id, consultation=consultation))
 
     # doctor = Doctor.query.get_or_404(doctor_id)
     # if patient.doctor != current_user:
