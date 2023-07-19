@@ -19,3 +19,6 @@ ________________________________________________
 then inside CA2-GroupC folder type:
 
 CA-GroupC>python run.py
+
+Deployed on
+http://43.204.28.167:5000/login
