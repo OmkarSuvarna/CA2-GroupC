@@ -54,7 +54,6 @@ class Consultation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_consultation = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     description = db.Column(db.String(500), nullable=False)
-    gender = db.Column(db.String(10), nullable=False)
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), default=None)
 
     def __repr__(self):

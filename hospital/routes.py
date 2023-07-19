@@ -149,19 +149,11 @@ def deleteDoctor(doctor_id):
 def patientConsultation(patient_id):
     form = ConsultationForm()
     if form.validate_on_submit():
-        consultation = Consultation(description=form.description.data,  gender=form.gender.data, patient_id=patient_id)
+        consultation = Consultation(description=form.description.data, patient_id=patient_id)
         db.session.add(consultation)
         db.session.commit()
         flash('Added Consultation Details', 'success')
         consultation = Consultation.query.filter_by(patient_id=patient_id)
         return redirect(url_for('patient_profile', patient_id=patient_id, consultation=consultation))
-
-    # doctor = Doctor.query.get_or_404(doctor_id)
-    # if patient.doctor != current_user:
-    # abort(403)
-    # db.session.delete(doctor)
-    # db.session.commit()
-    # flash('Doctor Details Deleted', 'info')
-    # return redirect(url_for('admin_addDoctor'))
     return render_template('patient_consultation.html', title ='Add Consultation', form=form)
 
