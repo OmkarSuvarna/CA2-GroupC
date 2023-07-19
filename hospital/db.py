@@ -1,3 +1,4 @@
+#kept for future implemtation
 # import mysql.connector
 
 # def hospitalDB():
