@@ -28,13 +28,15 @@ def home_doctor():
         flash(f'Added Patient : {form.firstName.data}  {form.lastName.data}', 'success')
         db.create_all()
         return redirect(url_for('home_doctor'))
-    patients = Patient.query.all()
+    page = request.args.get('page', 1, type=int)
+    patients = Patient.query.paginate(page=page, per_page=5)
     return render_template('home_doctor.html', form=form, patients=patients)
 
 @app.route("/patient_profile/<int:patient_id>")
 def patient_profile(patient_id):
+    page = request.args.get('page', 1, type=int)
     patient = Patient.query.get_or_404(patient_id)
-    consultation = Consultation.query.filter_by(patient_id=patient_id)
+    consultation = Consultation.query.filter_by(patient_id=patient_id).paginate(page=page, per_page=5)
     return render_template('patient_profile.html', title ='Patient Profile', patient=patient, consultation=consultation)
 
 @app.route("/patient_page/<int:patient_id>/update", methods=['GET', 'POST'])
@@ -103,13 +105,14 @@ def admin_addDoctor():
         db.session.commit()
         flash(f'Added Doctor : {form.firstName.data} {form.lastName.data}', 'success')
         return redirect(url_for('admin_addDoctor'))
-    doctors = Doctor.query.all()
+    # doctors = Doctor.query.all()
+    page = request.args.get('page', 1, type=int)
+    doctors = Doctor.query.paginate(page=page, per_page=5)
     return render_template('admin_addDoctor.html', form=form, title ='Add Doctor', doctors=doctors)
 
 @app.route("/doctor_profile/<int:doctor_id>")
 def doctor_profile(doctor_id):
     doctor = Doctor.query.get_or_404(doctor_id)
-    
     return render_template('doctor_profile.html', title ='Doctor Profile', doctor=doctor)
 
 @app.route("/doctor_page/<int:doctor_id>/update", methods=['GET', 'POST'])
@@ -153,7 +156,9 @@ def patientConsultation(patient_id):
         db.session.add(consultation)
         db.session.commit()
         flash('Added Consultation Details', 'success')
-        consultation = Consultation.query.filter_by(patient_id=patient_id)
+        # consultation = Consultation.query.filter_by(patient_id=patient_id)
+        page = request.args.get('page', 1, type=int)
+        consultation = Consultation.query.filter_by(patient_id=patient_id).paginate(page=page, per_page=5)
         return redirect(url_for('patient_profile', patient_id=patient_id, consultation=consultation))
     return render_template('patient_consultation.html', title ='Add Consultation', form=form)
 
