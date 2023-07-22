@@ -66,5 +66,24 @@
       {% endfor %}
     </tbody>
   </table>
+  <!-- below navigation is customised and addition have been done to it.
+  taken from https://betterprogramming.pub/simple-flask-pagination-example-4190b12c2e2e -->
+  <div class="table-pagination">
+    <span>
+      <a href="{{ url_for('admin_addDoctor', page=doctors.prev_num) }}" class="btn btn-outline-info mt-4 {% if doctors.page == 1 %}disabled{% endif %}">Prev</a>
+    </span>
+    <span class="mx-3">
+      {% for page_num in doctors.iter_pages(left_edge=1, right_edge=1, left_current=0, right_current=0) %}
+        {% if page_num %}
+          {% if doctors.page == page_num %}
+            <a class="btn btn-info mt-4">{{ page_num }}</a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </span>
+    <span>
+      <a href="{{ url_for('admin_addDoctor', page=doctors.next_num) }}" class="btn btn-outline-info mt-4 {% if doctors.page == doctors.pages %}disabled{% endif %}">Next</a>
+    </span>
+  </div>
 </div>
 {% endblock bodyContent %}
