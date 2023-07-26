@@ -22,7 +22,7 @@ def login():
 def home_doctor():
     form = PatientForm()
     if form.validate_on_submit():
-        patient = Patient(firstName=form.firstName.data, lastName=form.lastName.data, age=form.age.data, gender=form.gender.data, doctor_id=1)
+        patient = Patient(firstName=form.firstName.data, lastName=form.lastName.data, age=form.age.data, gender=form.gender.data, doctor_id=form.doctor.data)
         db.session.add(patient)
         db.session.commit()
         flash(f'Added Patient : {form.firstName.data}  {form.lastName.data}', 'success')
@@ -37,7 +37,14 @@ def patient_profile(patient_id):
     page = request.args.get('page', 1, type=int)
     patient = Patient.query.get_or_404(patient_id)
     consultation = Consultation.query.filter_by(patient_id=patient_id).paginate(page=page, per_page=5)
-    return render_template('patient_profile.html', title ='Patient Profile', patient=patient, consultation=consultation)
+    doctors = Doctor.query.all()
+    doctor = {}
+    for c in consultation.items:
+        for d in doctors:
+           if int(c.doctor)==d.id:
+               doctor[c.doctor] = d.firstName + ' ' + d.lastName
+
+    return render_template('patient_profile.html', title ='Patient Profile', patient=patient, consultation=consultation, doctor=doctor)
 
 @app.route("/patient_page/<int:patient_id>/update", methods=['GET', 'POST'])
 def updatePatient(patient_id):
@@ -50,6 +57,7 @@ def updatePatient(patient_id):
         patient.lastName = form.lastName.data
         patient.age = form.age.data
         patient.gender = form.gender.data
+        patient.doctor_id = form.doctor.data
         db.session.commit()
         flash('Patient Details Updated', 'info')
         return redirect(url_for('home_doctor'))
@@ -58,6 +66,7 @@ def updatePatient(patient_id):
         form.lastName.data = patient.lastName
         form.age.data = patient.age
         form.gender.data = patient.gender
+        form.doctor.data = patient.doctor_id 
     return render_template('update_patient.html', title ='Update Patient', form=form, patient=patient)
 
 @app.route("/home_doctor/<int:patient_id>/delete", methods=['GET'])
@@ -152,7 +161,7 @@ def deleteDoctor(doctor_id):
 def patientConsultation(patient_id):
     form = ConsultationForm()
     if form.validate_on_submit():
-        consultation = Consultation(description=form.description.data, patient_id=patient_id)
+        consultation = Consultation(description=form.description.data, patient_id=patient_id, doctor=form.doctor.data)
         db.session.add(consultation)
         db.session.commit()
         flash('Added Consultation Details', 'success')
@@ -162,3 +171,61 @@ def patientConsultation(patient_id):
         return redirect(url_for('patient_profile', patient_id=patient_id, consultation=consultation))
     return render_template('patient_consultation.html', title ='Add Consultation', form=form)
 
+@app.route("/patient_consultation/<int:patient_id>/delete/<int:consultation_id>", methods=['GET', 'POST'])
+def deleteConsultation(patient_id,consultation_id):
+    consultation = Consultation.query.get_or_404(consultation_id)
+    db.session.delete(consultation)
+    db.session.commit()
+    flash('Consultation Data Deleted', 'info')
+    return redirect(url_for('patient_profile', patient_id=patient_id))
+
+@app.route("/patient_consultation/<int:patient_id>/update/<int:consultation_id>", methods=['GET', 'POST'])
+def updateConsultation(patient_id,consultation_id):
+    consultation = Consultation.query.get_or_404(consultation_id)
+    form = ConsultationForm()
+    if form.validate_on_submit():
+        consultation.description = form.description.data
+        consultation.doctor = form.doctor.data
+        db.session.commit()
+        flash('Consultation Details Updated', 'info')
+        return redirect(url_for('patient_profile', patient_id=patient_id))
+    elif request.method == 'GET':
+        form.description.data = consultation.description
+        form.doctor.data = consultation.doctor
+    return render_template('patient_consultation.html', title ='Update Consultation', form=form, consultation=consultation)
+
+@app.route("/reports/doctor", methods=['GET', 'POST'])
+def doctorReports():
+    countData = {}
+    countData['patientCount']=Patient.query.count()
+    countData['doctorCount']=Doctor.query.count()
+    countData['pediatricsCount']=Doctor.query.filter_by(specialization='Pediatrics').count()
+    countData['orthopedicsCount']=Doctor.query.filter_by(specialization='Orthopedics').count()
+    countData['surgeonCount']=Doctor.query.filter_by(specialization='Surgeon').count()
+    countData['neurologyCount']=Doctor.query.filter_by(specialization='Neurology').count()
+    countData['anesthesiologyCount']=Doctor.query.filter_by(specialization='Anesthesiology').count()
+    countData['orthodonticsCount']=Doctor.query.filter_by(specialization='Orthodontics').count()
+    countData['ophthalmologyCount']=Doctor.query.filter_by(specialization='Ophthalmology').count()
+    countData['psychiatryCount']=Doctor.query.filter_by(specialization='Psychiatry').count()
+
+    countConsultationData={}
+    countConsultationData['pediatricsCount']=0
+    countConsultationData['orthopedicsCount']=0
+    countConsultationData['surgeonCount']=0
+    countConsultationData['neurologyCount']=0
+    countConsultationData['anesthesiologyCount']=0
+    countConsultationData['orthodonticsCount']=0
+    countConsultationData['ophthalmologyCount']=0
+    countConsultationData['psychiatryCount']=0
+
+    doctors = Doctor.query.all()
+    consultation = Consultation.query.all()
+    for c in consultation:
+        for d in doctors:
+           if int(c.doctor)==d.id:
+               keyName = d.specialization
+               keyName = keyName.lower()
+               keyName = keyName + 'Count'
+               countConsultationData[keyName] = int(countConsultationData.get(keyName)) + 1
+
+    return render_template('report.html', title ='Hospital Reports', countData=countData, countConsultationData=countConsultationData)

@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block bodyContent %}
+<div class="reports">
+    <div><h1>Total Doctor: {{countData['doctorCount']}}</h1></div>
+    <div><h1>Total Patients: {{countData['patientCount']}}</h1></div>  
+</div>
+<div  class="reports-table">
+    <table class="table table-hover table-fixed w-50">
+        <thead>
+          <tr class="table-row-color">
+            <th scope="col">Doctor Specialization</th>
+            <th scope="col">Count</th>
+            <th scope="col">Total Consultations</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Pediatrics</th>
+            <td>{{countData['pediatricsCount']}}</td>
+            <td>{{countConsultationData['pediatricsCount']}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Orthopedics</th>
+            <td>{{countData['orthopedicsCount']}}</td>
+            <td>{{countConsultationData['orthopedicsCount']}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Surgeon</th>
+            <td>{{countData['surgeonCount']}}</td>
+            <td>{{countConsultationData['surgeonCount']}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Neurology</th>
+            <td>{{countData['neurologyCount']}}</td>
+            <td>{{countConsultationData['neurologyCount']}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Anesthesiology</th>
+            <td>{{countData['anesthesiologyCount']}}</td>
+            <td>{{countConsultationData['anesthesiologyCount']}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Orthodontics</th>
+            <td>{{countData['orthodonticsCount']}}</td>
+            <td>{{countConsultationData['orthodonticsCount']}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Ophthalmology</th>
+            <td>{{countData['ophthalmologyCount']}}</td>
+            <td>{{countConsultationData['ophthalmologyCount']}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Psychiatry</th>
+            <td>{{countData['psychiatryCount']}}</td>
+            <td>{{countConsultationData['psychiatryCount']}}</td>
+          </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock bodyContent %}

@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, ValidationError
+# from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from hospital.models import User, Doctor, Consultation
 
 class UserForm(FlaskForm):
@@ -31,17 +32,30 @@ class PatientForm(FlaskForm):
     firstName = StringField('First Name', validators=[DataRequired(), Length(min=2,max=20)])
     lastName = StringField('Last Name', validators=[DataRequired(), Length(min=2,max=20)])
     age = StringField('Age', validators=[DataRequired()])
-    gender = SelectField('Gender', coerce=str, choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Others')])   
+    gender = SelectField('Gender', coerce=str, choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Others')])
+    doctor = SelectField('Primary Doctor', coerce=str)
     submit = SubmitField('Submit')
+
+    #taken from https://kyle.marek-spartz.org/posts/2014-04-04-setting-wtforms-selection-fields-dynamically.html
+    def __init__(self):
+        super(PatientForm, self).__init__()
+        self.doctor.choices = [(d.id, d.firstName +' '+ d.lastName) for d in Doctor.query.all()]
 
 class DoctorForm(FlaskForm):
     firstName = StringField('First Name', validators=[DataRequired(), Length(min=2,max=20)])
     lastName = StringField('Last Name', validators=[DataRequired(), Length(min=2,max=20)])
     age = StringField('Age', validators=[DataRequired()])
-    gender = SelectField('Gender', coerce=str, choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Others')])   
-    specialization = StringField('Specialization', validators=[DataRequired()]) 
+    gender = SelectField('Gender', coerce=str, choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Others')])
+    # specialization = StringField('Specialization', validators=[DataRequired()])
+    specialization = SelectField('Specialization', coerce=str, choices=[('Pediatrics', 'Pediatrics'), ('Orthopedics', 'Orthopedics'), ('Surgeon', 'Surgeon'),('Neurology', 'Neurology'),('Anesthesiology', 'Anesthesiology'),('Orthodontics', 'Orthodontics'),('Ophthalmology', 'Ophthalmology'),('Psychiatry', 'Psychiatry')])
     submit = SubmitField('Submit')
 
 class ConsultationForm(FlaskForm):
     description = TextAreaField('Consultation Details', validators=[DataRequired()])
+    doctor = SelectField('Doctor', coerce=str)
     submit = SubmitField('Submit')
+
+     #taken from https://kyle.marek-spartz.org/posts/2014-04-04-setting-wtforms-selection-fields-dynamically.html
+    def __init__(self):
+        super(ConsultationForm, self).__init__()
+        self.doctor.choices = [(d.id, d.firstName +' '+ d.lastName) for d in Doctor.query.all()]

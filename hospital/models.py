@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
     # usertype = db.Column(db.String(20), nullable=False)
 
     def __repr__(self):
-        return f"User('{self.username}','{self.email}')"
+        return f"User('{self.id}','{self.username}','{self.email}')"
 
 class Doctor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -26,7 +26,7 @@ class Doctor(db.Model):
     patients = db.relationship('Patient', backref='doctor', lazy=True)
 
     def __repr__(self):
-        return f"Doctor('{self.firstName}','{self.lastName}','{self.age}','{self.gender}','{self.specialization}')"
+        return f"Doctor('{self.id}','{self.firstName}','{self.lastName}','{self.age}','{self.gender}','{self.specialization}')"
 
 class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -45,9 +45,10 @@ class Consultation(db.Model):
     date_consultation = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     description = db.Column(db.String(500), nullable=False)
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), default=None)
+    doctor = db.Column(db.String(100))
 
     def __repr__(self):
-        return f"Consultation('{self.date_consultation}','{self.description}',{self.patient_id})"
+        return f"Consultation('{self.date_consultation}','{self.description}','{self.patient_id}','{self.doctor}')"
     
 # class Doctor2(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)

@@ -19,6 +19,7 @@
         <th scope="col">Ref No.</th>
         <th scope="col">Consultation Date</th>
         <th scope="col">Description</th>
+        <th scope="col">Doctor</th>
         <th scope="col">Update</th>
         <th scope="col">Delete</th>
     </tr>
@@ -29,8 +30,9 @@
         <td>{{c.id}}</td>
         <td>{{c.date_consultation.strftime('%d-%m-%Y')}}</td>
         <td>{{c.description}}</td>
-        <td><a href="#" class="btn btn-warning mx-2">Update</a></td>
-        <td><a href="#" class="btn btn-danger mx-2">Delete</a></td>
+        <td>{{doctor[c.doctor]}}</td>
+        <td><a href="{{ url_for('updateConsultation', patient_id=patient.id, consultation_id=c.id)}}" class="btn btn-warning mx-2">Update</a></td>
+        <td><a href="{{ url_for('deleteConsultation', patient_id=patient.id, consultation_id=c.id)}}" class="btn btn-danger mx-2">Delete</a></td>
     </tr>
     {% endfor %}
     </tbody>
